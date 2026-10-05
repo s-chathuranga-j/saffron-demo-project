@@ -4,12 +4,12 @@ A Saffron test suite for the Haven & Pine booking app (`../demo-app`), set up to
 
 ## Before a demo
 
-1. Start the app (from `../demo-app`). The `demo:*` scripts use the dev server on `http://localhost:5173`:
+1. Start the app (from `../demo-app`). Local runs use the dev server on `http://localhost:5173`, the `baseURL` in `saffron.config.json`:
    ```bash
    npm run dev:api   # one terminal
    npm run dev       # another
    ```
-   `npm test` and CI use `http://localhost:8080`, the `baseURL` in `saffron.config.json` (`docker compose up --build -d`).
+   CI starts the app with Docker on `http://localhost:8080` (`docker compose up --build -d`) and passes that address with `--base-url`.
 2. Install once, in this folder:
    ```bash
    npm install

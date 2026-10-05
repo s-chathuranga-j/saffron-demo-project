@@ -45,12 +45,14 @@ jobs:
       - name: Run the suite
         run: |
           set -f   # the base URLs hold a "?"; never glob them
+          # CI serves the app from Docker on 8080, whatever baseURL the config uses locally.
+          APP=http://localhost:8080
           case "${{ inputs.mode || 'standard' }}" in
-            drift)   ARGS='--filter @journey --base-url http://localhost:8080/?ui=v2' ;;
-            merged)  ARGS='--filter @journey --base-url http://localhost:8080/?flow=checkout-guest' ;;
-            removed) ARGS='--filter @journey --base-url http://localhost:8080/?flow=breakfast-included' ;;
-            defect)  ARGS='--filter @pricing --base-url http://localhost:8080/?bug=tax' ;;
-            *)       ARGS='' ;;
+            drift)   ARGS="--filter @journey --base-url $APP/?ui=v2" ;;
+            merged)  ARGS="--filter @journey --base-url $APP/?flow=checkout-guest" ;;
+            removed) ARGS="--filter @journey --base-url $APP/?flow=breakfast-included" ;;
+            defect)  ARGS="--filter @pricing --base-url $APP/?bug=tax" ;;
+            *)       ARGS="--base-url $APP" ;;
           esac
           npx saffron run --strict $ARGS
         env:
