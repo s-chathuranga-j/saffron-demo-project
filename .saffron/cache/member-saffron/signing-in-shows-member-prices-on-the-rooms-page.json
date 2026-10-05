@@ -1,0 +1,232 @@
+{
+  "version": 1,
+  "feature": "features/member.saffron",
+  "scenario": "Signing in shows member prices on the rooms page",
+  "recordedAt": "2026-10-04T17:41:25.997Z",
+  "recordedBy": "agent",
+  "steps": [
+    {
+      "gherkin": "I open the Haven & Pine home page",
+      "keyword": "Given",
+      "kind": "action",
+      "fromStepSet": "Search for a two-night stay",
+      "actions": [
+        {
+          "action": "goto",
+          "url": "/",
+          "pageFingerprint": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    },
+    {
+      "gherkin": "I choose a check-in date 14 days from today",
+      "keyword": "When",
+      "kind": "action",
+      "fromStepSet": "Search for a two-night stay",
+      "actions": [
+        {
+          "action": "click",
+          "target": {
+            "fallbackSelectors": [
+              "role=button[name=\"Check in Select date\"]"
+            ]
+          },
+          "pageFingerprint": "sha256:fe363659c1829d1224a6cbe6a0a5756d469e941bc8c5bc68e2bcb71898417ab5"
+        },
+        {
+          "action": "click",
+          "target": {
+            "fallbackSelectors": [
+              "role=button[name=\"{date+14}\"]"
+            ]
+          },
+          "pageFingerprint": "sha256:68d6030da50bfd4b240fb24366f57417e34d075e4d055c07e55f2e9018fd3116"
+        }
+      ]
+    },
+    {
+      "gherkin": "I choose a check-out date 16 days from today",
+      "keyword": "And",
+      "kind": "action",
+      "fromStepSet": "Search for a two-night stay",
+      "actions": [
+        {
+          "action": "click",
+          "target": {
+            "fallbackSelectors": [
+              "role=button[name=\"{date+16}\"]"
+            ]
+          },
+          "pageFingerprint": "sha256:e3b5013f42e32c3715c5b09623ff8dca404bbb039cbaec51701d2f59cb93dda0"
+        }
+      ]
+    },
+    {
+      "gherkin": "I search for available rooms",
+      "keyword": "And",
+      "kind": "action",
+      "fromStepSet": "Search for a two-night stay",
+      "actions": [
+        {
+          "action": "click",
+          "target": {
+            "fallbackSelectors": [
+              "role=button[name=\"Search available rooms →\"]"
+            ]
+          },
+          "pageFingerprint": "sha256:83be9b928f878831b990d2ee692e3e8d596cb43abdbd40c03b154943ea06b12e"
+        }
+      ]
+    },
+    {
+      "gherkin": "I should see \"Choose your room\"",
+      "keyword": "Then",
+      "kind": "assertion",
+      "fromStepSet": "Search for a two-night stay",
+      "actions": [
+        {
+          "action": "expectVisible",
+          "target": {
+            "role": "heading",
+            "name": "Choose your room"
+          }
+        }
+      ]
+    },
+    {
+      "gherkin": "I record the Garden Queen nightly price as \"guest price\"",
+      "keyword": "When",
+      "kind": "action",
+      "actions": [
+        {
+          "action": "captureText",
+          "target": {
+            "fallbackSelectors": [
+              "[data-test-id=\"rooms-garden-queen-price-value\"]"
+            ]
+          },
+          "saveAs": "guest price"
+        }
+      ]
+    },
+    {
+      "gherkin": "I click \"Sign in for member prices\"",
+      "keyword": "And",
+      "kind": "action",
+      "actions": [
+        {
+          "action": "click",
+          "target": {
+            "fallbackSelectors": [
+              "role=link[name=\"Sign in for member prices\"]"
+            ]
+          },
+          "pageFingerprint": "sha256:64354ffd7e03da7bbf83735d2a7b8aecb9d640f7c6b020da1137301b940172d3"
+        }
+      ]
+    },
+    {
+      "gherkin": "I sign in with email \"{data:member.email}\" and password \"{env:DEMO_MEMBER_PASSWORD}\"",
+      "keyword": "When",
+      "kind": "action",
+      "fromStepSet": "Sign in as the member",
+      "actions": [
+        {
+          "action": "fill",
+          "target": {
+            "fallbackSelectors": [
+              "role=textbox[name=\"Email\"]"
+            ]
+          },
+          "value": "{data:member.email}",
+          "pageFingerprint": "sha256:ddeca65daf4d3ddcbf551511c367798c965fe583c29135fdbac214242fc7fa34"
+        },
+        {
+          "action": "fill",
+          "target": {
+            "fallbackSelectors": [
+              "role=textbox[name=\"Password\"]"
+            ]
+          },
+          "value": "{env:DEMO_MEMBER_PASSWORD}",
+          "pageFingerprint": "sha256:74b542b6c3258b7ba0f44133b2d828177b9f91f860059748b90c6232a03cd0d2"
+        },
+        {
+          "action": "click",
+          "target": {
+            "fallbackSelectors": [
+              "role=button[name=\"Sign in\"]"
+            ]
+          },
+          "pageFingerprint": "sha256:0ea66967f64cdf8f7f7a7f29404614a9a45e54128e857d5c6a8ffc6d2829a29b"
+        }
+      ]
+    },
+    {
+      "gherkin": "the header should show \"Pine Circle\"",
+      "keyword": "Then",
+      "kind": "assertion",
+      "fromStepSet": "Sign in as the member",
+      "actions": [
+        {
+          "action": "expectText",
+          "target": {
+            "role": "banner",
+            "fallbackSelectors": [
+              "header"
+            ]
+          },
+          "value": "Pine Circle"
+        }
+      ]
+    },
+    {
+      "gherkin": "\"guest price\" should differ from the Garden Queen nightly price",
+      "keyword": "Then",
+      "kind": "assertion",
+      "actions": [
+        {
+          "action": "expectDiffers",
+          "target": {
+            "fallbackSelectors": [
+              "[data-test-id=\"rooms-garden-queen-price-value\"]"
+            ]
+          },
+          "compareTo": "guest price"
+        }
+      ]
+    },
+    {
+      "gherkin": "the Garden Queen should show the member price \"€157.25\"",
+      "keyword": "And",
+      "kind": "assertion",
+      "actions": [
+        {
+          "action": "expectText",
+          "target": {
+            "fallbackSelectors": [
+              "[data-test-id=\"rooms-garden-queen-price-value\"]"
+            ]
+          },
+          "value": "€157.25"
+        }
+      ]
+    },
+    {
+      "gherkin": "I should see \"Member prices applied\"",
+      "keyword": "And",
+      "kind": "assertion",
+      "actions": [
+        {
+          "action": "expectVisible",
+          "target": {
+            "text": "Member prices applied"
+          }
+        }
+      ]
+    }
+  ],
+  "data": {
+    "member.email": "member@havenpine.test"
+  }
+}

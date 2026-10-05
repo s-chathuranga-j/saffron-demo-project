@@ -1,0 +1,512 @@
+{
+  "version": 1,
+  "feature": "features/booking.saffron",
+  "scenario": "A guest books a room end to end",
+  "recordedAt": "2026-10-05T09:48:17.327Z",
+  "recordedBy": "agent",
+  "steps": [
+    {
+      "gherkin": "I open the Haven & Pine home page",
+      "keyword": "Given",
+      "kind": "action",
+      "fromStepSet": "Search for a two-night stay",
+      "actions": [
+        {
+          "action": "goto",
+          "url": "/",
+          "pageFingerprint": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    },
+    {
+      "gherkin": "I choose a check-in date 14 days from today",
+      "keyword": "When",
+      "kind": "action",
+      "fromStepSet": "Search for a two-night stay",
+      "actions": [
+        {
+          "action": "click",
+          "target": {
+            "fallbackSelectors": [
+              "role=button[name=\"Check in Select date\"]"
+            ]
+          },
+          "pageFingerprint": "sha256:fe363659c1829d1224a6cbe6a0a5756d469e941bc8c5bc68e2bcb71898417ab5"
+        },
+        {
+          "action": "click",
+          "target": {
+            "fallbackSelectors": [
+              "role=button[name=\"{date+14}\"]"
+            ]
+          },
+          "pageFingerprint": "sha256:68d6030da50bfd4b240fb24366f57417e34d075e4d055c07e55f2e9018fd3116"
+        }
+      ]
+    },
+    {
+      "gherkin": "I choose a check-out date 16 days from today",
+      "keyword": "And",
+      "kind": "action",
+      "fromStepSet": "Search for a two-night stay",
+      "actions": [
+        {
+          "action": "click",
+          "target": {
+            "fallbackSelectors": [
+              "role=button[name=\"{date+16}\"]"
+            ]
+          },
+          "pageFingerprint": "sha256:e3b5013f42e32c3715c5b09623ff8dca404bbb039cbaec51701d2f59cb93dda0"
+        }
+      ]
+    },
+    {
+      "gherkin": "I search for available rooms",
+      "keyword": "And",
+      "kind": "action",
+      "fromStepSet": "Search for a two-night stay",
+      "actions": [
+        {
+          "action": "click",
+          "target": {
+            "fallbackSelectors": [
+              "role=button[name=\"Search available rooms →\"]"
+            ]
+          },
+          "pageFingerprint": "sha256:83be9b928f878831b990d2ee692e3e8d596cb43abdbd40c03b154943ea06b12e"
+        }
+      ]
+    },
+    {
+      "gherkin": "I should see \"Choose your room\"",
+      "keyword": "Then",
+      "kind": "assertion",
+      "fromStepSet": "Search for a two-night stay",
+      "actions": [
+        {
+          "action": "expectVisible",
+          "target": {
+            "role": "heading",
+            "name": "Choose your room"
+          }
+        }
+      ]
+    },
+    {
+      "gherkin": "I select the \"Garden Queen\" room",
+      "keyword": "When",
+      "kind": "action",
+      "fromStepSet": "Choose the Garden Queen with breakfast",
+      "actions": [
+        {
+          "action": "click",
+          "target": {
+            "fallbackSelectors": [
+              "article:has(h2:text-is(\"Garden Queen\")) >> role=button[name=\"Select room\"]"
+            ]
+          },
+          "pageFingerprint": "sha256:64354ffd7e03da7bbf83735d2a7b8aecb9d640f7c6b020da1137301b940172d3"
+        }
+      ]
+    },
+    {
+      "gherkin": "I choose the \"Morning Ritual\" package and continue",
+      "keyword": "And",
+      "kind": "action",
+      "fromStepSet": "Choose the Garden Queen with breakfast",
+      "actions": [
+        {
+          "action": "click",
+          "target": {
+            "fallbackSelectors": [
+              "role=radio[name=/^Morning Ritual/]"
+            ]
+          },
+          "pageFingerprint": "sha256:c07c49d0eaca36aa1e98bfd17a98902da152e013bce506ba09d8e392b80c84c0"
+        },
+        {
+          "action": "click",
+          "target": {
+            "fallbackSelectors": [
+              "role=radio[name=/^Morning Ritual/]"
+            ]
+          },
+          "pageFingerprint": "sha256:4b23a41583458c74a832c669ec2e93135f266106cf98b4fba84fbc7b7e671902"
+        },
+        {
+          "action": "click",
+          "target": {
+            "fallbackSelectors": [
+              "role=button[name=\"Continue to guest information →\"]"
+            ]
+          },
+          "pageFingerprint": "sha256:4b23a41583458c74a832c669ec2e93135f266106cf98b4fba84fbc7b7e671902"
+        }
+      ]
+    },
+    {
+      "gherkin": "the booking summary should show the \"Morning Ritual\" package",
+      "keyword": "Then",
+      "kind": "assertion",
+      "fromStepSet": "Choose the Garden Queen with breakfast",
+      "actions": [
+        {
+          "action": "expectText",
+          "target": {
+            "fallbackSelectors": [
+              "aside dl div:has(dt:text-is(\"Package\")) dd"
+            ]
+          },
+          "value": "Morning Ritual"
+        }
+      ]
+    },
+    {
+      "gherkin": "I fill in the lead guest details",
+      "keyword": "When",
+      "kind": "action",
+      "table": [
+        [
+          "Title",
+          "Ms"
+        ],
+        [
+          "First name",
+          "Ada"
+        ],
+        [
+          "Last name",
+          "Lovelace"
+        ],
+        [
+          "Email",
+          "ada-{unique:id}@example.com"
+        ],
+        [
+          "Country",
+          "Germany"
+        ],
+        [
+          "Arrival time",
+          "After 18:00"
+        ]
+      ],
+      "fromStepSet": "Fill in the lead guest details",
+      "actions": [
+        {
+          "action": "selectOption",
+          "target": {
+            "fallbackSelectors": [
+              "role=combobox[name=\"Title *\"]"
+            ]
+          },
+          "value": "Ms",
+          "pageFingerprint": "sha256:4393e556eab420afcf31fa87e50413425e0d085e60dc8e9d35b33a9063467f71"
+        },
+        {
+          "action": "fill",
+          "target": {
+            "fallbackSelectors": [
+              "role=textbox[name=\"First name *\"]"
+            ]
+          },
+          "value": "<table:First name>",
+          "pageFingerprint": "sha256:0c18187bf9a35c83126c47e2dd9091956a9d3cc8c6f112206189dcafbc2d1185"
+        },
+        {
+          "action": "fill",
+          "target": {
+            "fallbackSelectors": [
+              "role=textbox[name=\"Last name *\"]"
+            ]
+          },
+          "value": "<table:Last name>"
+        },
+        {
+          "action": "fill",
+          "target": {
+            "fallbackSelectors": [
+              "role=textbox[name=\"Email *\"]"
+            ]
+          },
+          "value": "<table:Email>"
+        },
+        {
+          "action": "selectOption",
+          "target": {
+            "fallbackSelectors": [
+              "role=combobox[name=\"Country *\"]"
+            ]
+          },
+          "value": "<table:Country>"
+        },
+        {
+          "action": "selectOption",
+          "target": {
+            "fallbackSelectors": [
+              "role=combobox[name=\"Arrival time *\"]"
+            ]
+          },
+          "value": "<table:Arrival time>"
+        }
+      ]
+    },
+    {
+      "gherkin": "the lead guest email should show \"ada-{unique:id}@example.com\"",
+      "keyword": "Then",
+      "kind": "assertion",
+      "fromStepSet": "Fill in the lead guest details",
+      "actions": [
+        {
+          "action": "expectValue",
+          "target": {
+            "role": "textbox",
+            "name": "Email *"
+          },
+          "value": "<table:Email>"
+        }
+      ]
+    },
+    {
+      "gherkin": "I add the special request",
+      "keyword": "When",
+      "kind": "action",
+      "docString": "Late arrival around 22:00, please keep the room.",
+      "actions": [
+        {
+          "action": "fill",
+          "target": {
+            "fallbackSelectors": [
+              "role=textbox[name=\"Special requests\"]"
+            ]
+          },
+          "value": "<docstring>",
+          "pageFingerprint": "sha256:ceaf1affb2e12d0fbf444c68f194a30abb021b31dd74744c4b826d25c1a659ca"
+        }
+      ]
+    },
+    {
+      "gherkin": "I continue to payment",
+      "keyword": "And",
+      "kind": "action",
+      "actions": [
+        {
+          "action": "click",
+          "target": {
+            "fallbackSelectors": [
+              "role=button[name=\"Continue to payment →\"]"
+            ]
+          },
+          "pageFingerprint": "sha256:dcfbd2dd9f09b3891eac576a1670d6408bb22dd1deb29bd905d917e6fc7788e7"
+        }
+      ]
+    },
+    {
+      "gherkin": "I enter the card number \"{data:cards.success}\" in the secure payment form",
+      "keyword": "When",
+      "kind": "action",
+      "fromStepSet": "Pay with the demo card",
+      "actions": [
+        {
+          "action": "fill",
+          "target": {
+            "frame": "[data-test-id=\"checkout-payment-iframe\"]",
+            "fallbackSelectors": [
+              "[data-test-id=\"payment-card-number-input\"]"
+            ]
+          },
+          "value": "{data:cards.success}",
+          "pageFingerprint": "sha256:abbd28448c0ef9abe00f12a7f69023c96ff4a7a8fe1031d5a1e66b8e51926b31"
+        }
+      ]
+    },
+    {
+      "gherkin": "I enter the expiry \"12/30\", CVV \"123\" and cardholder \"Ada Lovelace\" in the secure payment form",
+      "keyword": "And",
+      "kind": "action",
+      "fromStepSet": "Pay with the demo card",
+      "actions": [
+        {
+          "action": "fill",
+          "target": {
+            "frame": "[data-test-id=\"checkout-payment-iframe\"]",
+            "fallbackSelectors": [
+              "[data-test-id=\"payment-expiry-input\"]"
+            ]
+          },
+          "value": "12/30",
+          "pageFingerprint": "sha256:abbd28448c0ef9abe00f12a7f69023c96ff4a7a8fe1031d5a1e66b8e51926b31"
+        },
+        {
+          "action": "fill",
+          "target": {
+            "frame": "[data-test-id=\"checkout-payment-iframe\"]",
+            "fallbackSelectors": [
+              "[data-test-id=\"payment-cvv-input\"]"
+            ]
+          },
+          "value": "123",
+          "pageFingerprint": "sha256:abbd28448c0ef9abe00f12a7f69023c96ff4a7a8fe1031d5a1e66b8e51926b31"
+        },
+        {
+          "action": "fill",
+          "target": {
+            "frame": "[data-test-id=\"checkout-payment-iframe\"]",
+            "fallbackSelectors": [
+              "[data-test-id=\"payment-cardholder-input\"]"
+            ]
+          },
+          "value": "<table:First name> <table:Last name>",
+          "pageFingerprint": "sha256:abbd28448c0ef9abe00f12a7f69023c96ff4a7a8fe1031d5a1e66b8e51926b31"
+        }
+      ]
+    },
+    {
+      "gherkin": "I validate the card",
+      "keyword": "And",
+      "kind": "action",
+      "fromStepSet": "Pay with the demo card",
+      "actions": [
+        {
+          "action": "click",
+          "target": {
+            "frame": "[data-test-id=\"checkout-payment-iframe\"]",
+            "fallbackSelectors": [
+              "[data-test-id=\"payment-submit-button\"]"
+            ]
+          },
+          "pageFingerprint": "sha256:abbd28448c0ef9abe00f12a7f69023c96ff4a7a8fe1031d5a1e66b8e51926b31"
+        }
+      ]
+    },
+    {
+      "gherkin": "the payment status should show \"approved\"",
+      "keyword": "Then",
+      "kind": "assertion",
+      "fromStepSet": "Pay with the demo card",
+      "actions": [
+        {
+          "action": "expectText",
+          "target": {
+            "role": "status"
+          },
+          "value": "approved"
+        }
+      ]
+    },
+    {
+      "gherkin": "I accept the booking terms",
+      "keyword": "When",
+      "kind": "action",
+      "actions": [
+        {
+          "action": "click",
+          "target": {
+            "fallbackSelectors": [
+              "role=checkbox[name=\"I agree to the booking conditions and cancellation policy.\"]"
+            ]
+          },
+          "pageFingerprint": "sha256:1838c1fcdd172a496426578aa710e1726bf4c4b250b9df4ab115614622aa6cd2"
+        }
+      ]
+    },
+    {
+      "gherkin": "I confirm the booking and wait for the bookings API to return 201",
+      "keyword": "And",
+      "kind": "action",
+      "actions": [
+        {
+          "action": "click",
+          "target": {
+            "fallbackSelectors": [
+              "role=button[name=\"Confirm and pay →\"]"
+            ]
+          },
+          "pageFingerprint": "sha256:1f5978f8882f4107111b6cc16765218068fa1d46790ec91c0f9d58a5e2404176"
+        },
+        {
+          "action": "waitForResponse",
+          "urlPattern": "/api/bookings$",
+          "method": "POST",
+          "status": "201"
+        }
+      ]
+    },
+    {
+      "gherkin": "I open My Booking",
+      "keyword": "And",
+      "kind": "action",
+      "actions": [
+        {
+          "action": "click",
+          "target": {
+            "fallbackSelectors": [
+              "role=link[name=\"My Booking\"]"
+            ]
+          },
+          "pageFingerprint": "sha256:9255180126d422a6b85647c9afdf28c3884b6be3566df7e039d4c54adda8bb40"
+        }
+      ]
+    },
+    {
+      "gherkin": "I should see \"Paid in full\"",
+      "keyword": "Then",
+      "kind": "assertion",
+      "actions": [
+        {
+          "action": "expectVisible",
+          "target": {
+            "role": "heading",
+            "name": "Paid in full"
+          }
+        }
+      ]
+    },
+    {
+      "gherkin": "the booking reference should be \"HP-LOV-2701\"",
+      "keyword": "And",
+      "kind": "assertion",
+      "actions": [
+        {
+          "action": "expectText",
+          "target": {
+            "fallbackSelectors": [
+              "main p:has-text(\"Booking reference\") strong"
+            ]
+          },
+          "value": "HP-LOV-2701"
+        }
+      ]
+    },
+    {
+      "gherkin": "the special request should be shown",
+      "keyword": "And",
+      "kind": "assertion",
+      "actions": [
+        {
+          "action": "expectVisible",
+          "target": {
+            "text": "<docstring>"
+          }
+        }
+      ]
+    },
+    {
+      "gherkin": "the bookings request should have returned 201",
+      "keyword": "And",
+      "kind": "assertion",
+      "actions": [
+        {
+          "action": "expectResponse",
+          "urlPattern": "/api/bookings$",
+          "method": "POST",
+          "status": "201"
+        }
+      ]
+    }
+  ],
+  "data": {
+    "cards.success": "4242 4242 4242 4242"
+  }
+}

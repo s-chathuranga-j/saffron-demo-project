@@ -1,0 +1,25 @@
+{
+  "name": "saffron-demo-project",
+  "version": "1.0.0",
+  "description": "Saffron demo suite for the Haven & Pine booking app",
+  "scripts": {
+    "test": "saffron run",
+    "replay": "saffron run --no-agent",
+    "watch": "saffron run --headed",
+    "status": "saffron status",
+    "steps": "saffron steps",
+    "report": "saffron report",
+    "trace": "saffron trace",
+    "accept": "saffron accept",
+    "demo:drift": "saffron run --filter @journey --headed --base-url \"http://localhost:5173/?ui=v2\"",
+    "demo:merged": "saffron run --filter @journey --headed --base-url \"http://localhost:5173/?flow=checkout-guest\"",
+    "demo:removed": "saffron run --filter @journey --headed --base-url \"http://localhost:5173/?flow=breakfast-included\"",
+    "demo:defect": "saffron run --filter @pricing --headed --base-url \"http://localhost:5173/?bug=tax\"",
+    "demo:reset": "node scripts/demo-reset.mjs",
+    "demo:fresh": "node scripts/demo-reset.mjs --fresh"
+  },
+  "devDependencies": {
+    "saffron-ai": "^0.9.5"
+  },
+  "private": true
+}

@@ -1,0 +1,14 @@
+Feature: Rooms and packages from the catalog
+
+  @data
+  Scenario Outline: Every room shows its nightly rate
+    StepSet Search for a two-night stay
+    Then the "<room>" room should show "<price>" per night
+
+    Examples: {data:rooms}
+
+  @data
+  Scenario: The package page offers every package
+    StepSet Search for a two-night stay
+    When I select the "Garden Queen" room
+    Then the package page should list every {data:catalog.packages}

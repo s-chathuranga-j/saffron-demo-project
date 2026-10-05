@@ -1,0 +1,27 @@
+Feature: Booking a stay at Haven & Pine
+
+  @smoke @journey
+  Scenario: A guest books a room end to end
+    StepSet Search for a two-night stay
+    StepSet Choose the Garden Queen with breakfast
+    StepSet Fill in the lead guest details
+    When I add the special request
+      """
+      Late arrival around 22:00, please keep the room.
+      """
+    And I continue to payment
+    StepSet Pay with the demo card
+    When I accept the booking terms
+    And I confirm the booking and wait for the bookings API to return 201
+    And I open My Booking
+    Then I should see "Paid in full"
+    And the booking reference should be "HP-LOV-2701"
+    And the special request should be shown
+    And the bookings request should have returned 201
+
+  @pricing
+  Scenario: The booking summary adds 12% tax to the stay
+    StepSet Search for a two-night stay
+    StepSet Choose the Garden Queen with breakfast
+    Then the booking summary should show taxes of "€51.12"
+    And the booking summary total should be "€477.12"

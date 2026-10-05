@@ -1,0 +1,33 @@
+Feature: Shared steps for the Haven & Pine booking journey
+
+StepSet: Search for a two-night stay
+    Given I open the Haven & Pine home page
+    When I choose a check-in date 14 days from today
+    And I choose a check-out date 16 days from today
+    And I search for available rooms
+    Then I should see "Choose your room"
+
+StepSet: Choose the Garden Queen with breakfast
+    When I select the "Garden Queen" room
+    And I choose the "Morning Ritual" package and continue
+    Then the booking summary should show the "Morning Ritual" package
+
+StepSet: Fill in the lead guest details
+    When I fill in the lead guest details
+      | Title        | Ms                          |
+      | First name   | Ada                         |
+      | Last name    | Lovelace                    |
+      | Email        | ada-{unique:id}@example.com |
+      | Country      | Germany                     |
+      | Arrival time | After 18:00                 |
+    Then the lead guest email should show "ada-{unique:id}@example.com"
+
+StepSet: Pay with the demo card
+    When I enter the card number "{data:cards.success}" in the secure payment form
+    And I enter the expiry "12/30", CVV "123" and cardholder "Ada Lovelace" in the secure payment form
+    And I validate the card
+    Then the payment status should show "approved"
+
+StepSet: Sign in as the member
+    When I sign in with email "{data:member.email}" and password "{env:DEMO_MEMBER_PASSWORD}"
+    Then the header should show "Pine Circle"

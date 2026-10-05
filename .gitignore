@@ -1,0 +1,10 @@
+node_modules/
+.env
+.idea/
+.saffron/reports/
+.saffron/artifacts/
+.saffron/artifacts-private/
+.ai/
+app/
+# Run history stays local, so every demo:reset starts the dashboard clean.
+.saffron/history.jsonl

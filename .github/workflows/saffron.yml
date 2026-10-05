@@ -1,0 +1,82 @@
+name: Saffron
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: App mode to test against (see ../demo-app/FLOWS.md)
+        type: choice
+        options: [standard, drift, merged, removed, defect]
+        default: standard
+
+permissions:
+  contents: write        # export --branch pushes the heal branch
+  pull-requests: write   # and opens the draft pull request
+
+jobs:
+  suite:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check out the demo app
+        uses: actions/checkout@v4
+        with:
+          repository: s-chathuranga-j/booking-demo
+          path: app
+
+      - name: Start the demo app
+        working-directory: app
+        run: |
+          docker compose up --build -d --wait
+          for i in $(seq 1 60); do curl -sf -o /dev/null http://localhost:8080/api/health && curl -sf -o /dev/null http://localhost:8080/ && exit 0; sleep 1; done
+          docker compose logs; exit 1
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci && npx playwright install --with-deps chromium
+
+      - name: Run the suite
+        run: |
+          set -f   # the base URLs hold a "?"; never glob them
+          case "${{ inputs.mode || 'standard' }}" in
+            drift)   ARGS='--filter @journey --base-url http://localhost:8080/?ui=v2' ;;
+            merged)  ARGS='--filter @journey --base-url http://localhost:8080/?flow=checkout-guest' ;;
+            removed) ARGS='--filter @journey --base-url http://localhost:8080/?flow=breakfast-included' ;;
+            defect)  ARGS='--filter @pricing --base-url http://localhost:8080/?bug=tax' ;;
+            *)       ARGS='' ;;
+          esac
+          npx saffron run --strict $ARGS
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          DEMO_MEMBER_PASSWORD: ${{ secrets.DEMO_MEMBER_PASSWORD }}
+
+      # Review in the IDE: the CI runs view (VS Code) or CI Runs tab (JetBrains) imports this bundle.
+      - name: Pack the heals for review
+        if: failure()
+        run: npx saffron export --out saffron-bundle.zip
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: saffron-bundle
+          path: saffron-bundle.zip
+          retention-days: 14
+          overwrite: true
+
+      # Review in a pull request: only when the run filed a heal (a red defect run has none).
+      - name: Open a draft pull request with the heals
+        if: failure()
+        run: |
+          if [ -z "$(find .saffron/proposals -name '*.json' 2>/dev/null)" ]; then echo "No heals to propose."; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          npx saffron export --branch "saffron/heal-${{ github.run_id }}"
+        env:
+          GH_TOKEN: ${{ github.token }}

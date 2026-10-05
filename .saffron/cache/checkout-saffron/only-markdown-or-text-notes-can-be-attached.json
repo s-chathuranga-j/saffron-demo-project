@@ -1,0 +1,345 @@
+{
+  "version": 1,
+  "feature": "features/checkout.saffron",
+  "scenario": "Only Markdown or text notes can be attached",
+  "recordedAt": "2026-10-04T17:40:35.870Z",
+  "recordedBy": "agent",
+  "steps": [
+    {
+      "gherkin": "I open the Haven & Pine home page",
+      "keyword": "Given",
+      "kind": "action",
+      "fromStepSet": "Search for a two-night stay",
+      "actions": [
+        {
+          "action": "goto",
+          "url": "/",
+          "pageFingerprint": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    },
+    {
+      "gherkin": "I choose a check-in date 14 days from today",
+      "keyword": "When",
+      "kind": "action",
+      "fromStepSet": "Search for a two-night stay",
+      "actions": [
+        {
+          "action": "click",
+          "target": {
+            "fallbackSelectors": [
+              "role=button[name=\"Check in Select date\"]"
+            ]
+          },
+          "pageFingerprint": "sha256:fe363659c1829d1224a6cbe6a0a5756d469e941bc8c5bc68e2bcb71898417ab5"
+        },
+        {
+          "action": "click",
+          "target": {
+            "fallbackSelectors": [
+              "role=button[name=\"{date+14}\"]"
+            ]
+          },
+          "pageFingerprint": "sha256:68d6030da50bfd4b240fb24366f57417e34d075e4d055c07e55f2e9018fd3116"
+        }
+      ]
+    },
+    {
+      "gherkin": "I choose a check-out date 16 days from today",
+      "keyword": "And",
+      "kind": "action",
+      "fromStepSet": "Search for a two-night stay",
+      "actions": [
+        {
+          "action": "click",
+          "target": {
+            "fallbackSelectors": [
+              "role=button[name=\"{date+16}\"]"
+            ]
+          },
+          "pageFingerprint": "sha256:e3b5013f42e32c3715c5b09623ff8dca404bbb039cbaec51701d2f59cb93dda0"
+        }
+      ]
+    },
+    {
+      "gherkin": "I search for available rooms",
+      "keyword": "And",
+      "kind": "action",
+      "fromStepSet": "Search for a two-night stay",
+      "actions": [
+        {
+          "action": "click",
+          "target": {
+            "fallbackSelectors": [
+              "role=button[name=\"Search available rooms →\"]"
+            ]
+          },
+          "pageFingerprint": "sha256:83be9b928f878831b990d2ee692e3e8d596cb43abdbd40c03b154943ea06b12e"
+        }
+      ]
+    },
+    {
+      "gherkin": "I should see \"Choose your room\"",
+      "keyword": "Then",
+      "kind": "assertion",
+      "fromStepSet": "Search for a two-night stay",
+      "actions": [
+        {
+          "action": "expectVisible",
+          "target": {
+            "role": "heading",
+            "name": "Choose your room"
+          }
+        }
+      ]
+    },
+    {
+      "gherkin": "I select the \"Garden Queen\" room",
+      "keyword": "When",
+      "kind": "action",
+      "fromStepSet": "Choose the Garden Queen with breakfast",
+      "actions": [
+        {
+          "action": "click",
+          "target": {
+            "fallbackSelectors": [
+              "article:has(h2:text-is(\"Garden Queen\")) >> role=button[name=\"Select room\"]"
+            ]
+          },
+          "pageFingerprint": "sha256:64354ffd7e03da7bbf83735d2a7b8aecb9d640f7c6b020da1137301b940172d3"
+        }
+      ]
+    },
+    {
+      "gherkin": "I choose the \"Morning Ritual\" package and continue",
+      "keyword": "And",
+      "kind": "action",
+      "fromStepSet": "Choose the Garden Queen with breakfast",
+      "actions": [
+        {
+          "action": "click",
+          "target": {
+            "fallbackSelectors": [
+              "role=radio[name=/^Morning Ritual/]"
+            ]
+          },
+          "pageFingerprint": "sha256:7b7d08db25e13cf9fdc931ed16dc00cf9fe10def8f518556a232959d5f380df2"
+        },
+        {
+          "action": "click",
+          "target": {
+            "fallbackSelectors": [
+              "role=button[name=\"Continue to guest information →\"]"
+            ]
+          },
+          "pageFingerprint": "sha256:4b23a41583458c74a832c669ec2e93135f266106cf98b4fba84fbc7b7e671902"
+        }
+      ]
+    },
+    {
+      "gherkin": "the booking summary should show the \"Morning Ritual\" package",
+      "keyword": "Then",
+      "kind": "assertion",
+      "fromStepSet": "Choose the Garden Queen with breakfast",
+      "actions": [
+        {
+          "action": "expectText",
+          "target": {
+            "fallbackSelectors": [
+              "aside dl div:has(dt:text-is(\"Package\")) dd"
+            ]
+          },
+          "value": "Morning Ritual"
+        }
+      ]
+    },
+    {
+      "gherkin": "I fill in the lead guest details",
+      "keyword": "When",
+      "kind": "action",
+      "table": [
+        [
+          "Title",
+          "Ms"
+        ],
+        [
+          "First name",
+          "Ada"
+        ],
+        [
+          "Last name",
+          "Lovelace"
+        ],
+        [
+          "Email",
+          "ada-{unique:id}@example.com"
+        ],
+        [
+          "Country",
+          "Germany"
+        ],
+        [
+          "Arrival time",
+          "After 18:00"
+        ]
+      ],
+      "fromStepSet": "Fill in the lead guest details",
+      "actions": [
+        {
+          "action": "selectOption",
+          "target": {
+            "fallbackSelectors": [
+              "role=combobox[name=\"Title *\"]"
+            ]
+          },
+          "value": "Ms",
+          "pageFingerprint": "sha256:4393e556eab420afcf31fa87e50413425e0d085e60dc8e9d35b33a9063467f71"
+        },
+        {
+          "action": "fill",
+          "target": {
+            "fallbackSelectors": [
+              "role=textbox[name=\"First name *\"]"
+            ]
+          },
+          "value": "<table:First name>"
+        },
+        {
+          "action": "fill",
+          "target": {
+            "fallbackSelectors": [
+              "role=textbox[name=\"Last name *\"]"
+            ]
+          },
+          "value": "<table:Last name>"
+        },
+        {
+          "action": "fill",
+          "target": {
+            "fallbackSelectors": [
+              "role=textbox[name=\"Email *\"]"
+            ]
+          },
+          "value": "<table:Email>"
+        },
+        {
+          "action": "selectOption",
+          "target": {
+            "fallbackSelectors": [
+              "role=combobox[name=\"Country *\"]"
+            ]
+          },
+          "value": "<table:Country>"
+        },
+        {
+          "action": "selectOption",
+          "target": {
+            "fallbackSelectors": [
+              "role=combobox[name=\"Arrival time *\"]"
+            ]
+          },
+          "value": "<table:Arrival time>"
+        }
+      ]
+    },
+    {
+      "gherkin": "the lead guest email should show \"ada-{unique:id}@example.com\"",
+      "keyword": "Then",
+      "kind": "assertion",
+      "fromStepSet": "Fill in the lead guest details",
+      "actions": [
+        {
+          "action": "expectValue",
+          "target": {
+            "role": "textbox",
+            "name": "Email *"
+          },
+          "value": "<table:Email>"
+        }
+      ]
+    },
+    {
+      "gherkin": "I continue to payment",
+      "keyword": "When",
+      "kind": "action",
+      "actions": [
+        {
+          "action": "click",
+          "target": {
+            "fallbackSelectors": [
+              "role=button[name=\"Continue to payment →\"]"
+            ]
+          },
+          "pageFingerprint": "sha256:1294ef71b1d55d1e42a21dfc3a0e4b890c7efa91f5831e3f3a86f30453c6fd85"
+        }
+      ]
+    },
+    {
+      "gherkin": "I upload the file \"fixtures/floor-plan.pdf\" as the notes to the hotel",
+      "keyword": "And",
+      "kind": "action",
+      "actions": [
+        {
+          "action": "uploadFile",
+          "value": "fixtures/floor-plan.pdf"
+        },
+        {
+          "action": "click",
+          "target": {
+            "fallbackSelectors": [
+              "role=button[name=\"Choose a .md or .txt file\"]"
+            ]
+          },
+          "pageFingerprint": "sha256:ebbe2f2da15bd7deb2f5bdd5d873c69ca59a8ba3b99b98c5b7b2184f98a79a86"
+        }
+      ]
+    },
+    {
+      "gherkin": "I should see \"Choose a Markdown (.md) or text (.txt) file.\"",
+      "keyword": "Then",
+      "kind": "assertion",
+      "actions": [
+        {
+          "action": "expectText",
+          "target": {
+            "role": "alert"
+          },
+          "value": "Choose a Markdown (.md) or text (.txt) file."
+        }
+      ]
+    },
+    {
+      "gherkin": "I upload the file \"data/arrival-notes.md\" as the notes to the hotel",
+      "keyword": "When",
+      "kind": "action",
+      "actions": [
+        {
+          "action": "uploadFile",
+          "value": "data/arrival-notes.md"
+        },
+        {
+          "action": "click",
+          "target": {
+            "fallbackSelectors": [
+              "role=button[name=\"Choose a .md or .txt file\"]"
+            ]
+          },
+          "pageFingerprint": "sha256:2e7b60fb176945c8aa40139256afab33d2b0a41ecc770f4a11fa8bebd173b8b4"
+        }
+      ]
+    },
+    {
+      "gherkin": "the notes file \"arrival-notes.md\" should be listed",
+      "keyword": "Then",
+      "kind": "assertion",
+      "actions": [
+        {
+          "action": "expectVisible",
+          "target": {
+            "text": "arrival-notes.md"
+          }
+        }
+      ]
+    }
+  ]
+}

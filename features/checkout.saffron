@@ -1,0 +1,25 @@
+Feature: Checkout safeguards
+
+  @negative
+  Scenario: A declined card cannot complete the booking
+    StepSet Search for a two-night stay
+    StepSet Choose the Garden Queen with breakfast
+    StepSet Fill in the lead guest details
+    When I continue to payment
+    And I enter the card number "{data:cards.declined}" in the secure payment form
+    And I enter the expiry "12/30", CVV "123" and cardholder "Ada Lovelace" in the secure payment form
+    And I validate the card
+    And I accept the booking terms
+    And I confirm the booking
+    Then I should see "Payment declined. Try the demo success card instead."
+
+  @upload @datafolder
+  Scenario: Only Markdown or text notes can be attached
+    StepSet Search for a two-night stay
+    StepSet Choose the Garden Queen with breakfast
+    StepSet Fill in the lead guest details
+    When I continue to payment
+    And I upload the file "fixtures/floor-plan.pdf" as the notes to the hotel
+    Then I should see "Choose a Markdown (.md) or text (.txt) file."
+    When I upload the file "data/arrival-notes.md" as the notes to the hotel
+    Then the notes file "arrival-notes.md" should be listed

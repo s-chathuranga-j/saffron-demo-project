@@ -1,0 +1,18 @@
+Feature: Pine Circle member prices
+
+  @member @secrets
+  Scenario: Signing in shows member prices on the rooms page
+    StepSet Search for a two-night stay
+    When I record the Garden Queen nightly price as "guest price"
+    And I click "Sign in for member prices"
+    StepSet Sign in as the member
+    Then "guest price" should differ from the Garden Queen nightly price
+    And the Garden Queen should show the member price "€157.25"
+    And I should see "Member prices applied"
+
+  @member @negative
+  Scenario: A wrong password is refused
+    Given I open the Haven & Pine home page
+    When I click "Sign in" in the header
+    And I sign in with email "{data:member.email}" and password "not-the-password"
+    Then I should see "The email or password is incorrect."

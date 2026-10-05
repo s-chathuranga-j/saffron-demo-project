@@ -1,0 +1,8 @@
+{
+  "baseURL": "http://localhost:5173",
+  "features": "features",
+  "dataDir": "data",
+  "trace": "on",
+  "screenshot": "viewport",
+  "retries": 1
+}
